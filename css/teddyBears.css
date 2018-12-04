@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+header {
+	background-image: url(../images/teddy-bear-picnic.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 150px;
+	background-color:aliceblue;
+}
+header.page-header {
+    background: no-repeat center/contain url(../images/teddy-bear-picnic.png);
+    display: flex;
+    height: 150px;
+    min-width: 120px;
+    align-items: center;
+    color: #000;
+    text-shadow: #000 0 0 .2em;
+}
+
+header.page-header > h1 {
+    font: bold calc(1em + 2 * (100vw - 120px) / 100) 'Dancing Script', cursive,
+        fantasy;
+    margin: 2%;
+}
+
+nav {
+	display:inline;
+}
+nav ul {
+list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:rgba(50,144,245,1.00);
+} 
+nav ul li {
+    float: left;
+}
+nav ul li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+content {
+	display:block;
+}
+
+.loginForm {
+	text-align: center;
+}
+

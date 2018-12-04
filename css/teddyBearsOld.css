@@ -1,0 +1,65 @@
+@charset "utf-8";
+.Banner {
+	font-family: acme;
+	font-size: 64px;
+	font-style: normal;
+	font-weight: 400;
+	color: #0639FC;
+	background-color: #000000;
+}
+h1 {
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	font-size: 24px;
+	font-weight: bold;
+	color: #F0080C;
+}
+p {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	font-size: 14px;
+	color: #2909F5;
+}
+h2 {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #EB06F9;
+}
+.bgBanner {
+	background-color: #F9D904;
+}
+header {
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 960px;
+}
+.bannerHeading2 {
+	font-family: acme;
+	font-size: 48px;
+	font-style: normal;
+	font-weight: 400;
+	color: #F30245;
+}
+a:link {
+	color: #F30004;
+	text-decoration: none;
+}
+a:visited {
+	color: #0CF909;
+	text-decoration: none;
+}
+a:hover {
+	color: #1622F8;
+}
+a:active {
+	color: #F5B907;
+}
+h3 {
+	font-size: 24px;
+	color: #050AEC;
+}
+.tableText {
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	font-size: 14px;
+	color: #0200F8;
+}
