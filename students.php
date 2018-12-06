@@ -15,7 +15,7 @@ if (!isset($_SESSION['username'])) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>St Pius X CIP - Manage Venues</title>
+<title>St Pius X CIP - Manage Students</title>
 <link href="css/spxcip.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -32,42 +32,41 @@ if (!isset($_SESSION['username'])) {
 </nav>
 <maincontent>
 
-<h1>Manage Venues</h1>
+<h1>Manage Students</h1>
 <div>
 <?php
 FUNCTION esc($string) {
 	return str_replace("'","&rsquo;",$string);
 }
 
-$error="Please choose a Venue to maintain or click Add Venue";  //Default message
+$error="Please choose a Student to maintain or click Add Student";  //Default message
 require 'DBUtils.php';
 $conn = getConn();
 
 // GET QUIZ TOPICS THAT ARE ACTIVE FIRST
-$sql = 'SELECT providerId, providerName, location FROM cip_provider ORDER BY providerName';
+$sql = 'SELECT studentId, studentFirstName, studentLastName, userId, email FROM student ORDER BY StudentLastName, StudentFirstName';
 		
 ////echo $sql;	
 $result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
 if (mysqli_num_rows($result)>0) {
 	// Get the results into venue list 
-	echo "<form id='venues' name='venues' action='venue.php' method='post' class='tableText'>";
+	echo "<form id='students' name='students' action='student.php' method='post' class='tableText'>";
 	echo "<ol>";
 	while($provRow = mysqli_fetch_assoc($result)) {
-		$providerId = $provRow["providerId"];
-		$providerName = $provRow["providerName"];
-		$location=$provRow["location"];
-		//echo "<li><button type='button' value='$providerId'>$providerName</button>";
-		//echo "</li>";
-		echo "<li><a href='venue.php?venue=$providerId&function=edit'>".$providerName.' ('.$location.')'."</a>";
+		$studentId = $provRow["studentId"];
+		$studentFirstName = $provRow["studentFirstName"];
+		$studentLastName = $provRow["studentLastName"];
+		$email=$provRow["email"];
+		echo "<li><a href='student.php?student=$studentId&function=edit'>".$studentLastName.' ('.$studentFirstName.')'."</a>";
 		echo "</li>";
 	} 
 	echo "</ol>";
-	echo "<button type='submit' name='new'>Add New Venue</button>";
+	echo "<button type='submit' name='new'>Add New Student</button>";
 	echo "<p></p>";
 	echo "</form>";
 	mysqli_close($conn); 
 } else {
-	$error = "<p>No Venues Available!</p>";
+	$error = "<p>No Students Available!</p>";
 }
 ?>
 </div>
