@@ -1,0 +1,1 @@
+SELECT u.UserID, u.UserName, u.PASSWORD, u.firstName, u.lastName, u.Email, u.Role, h.homeroomId, h.homeroom, yr.yearId, yr.year FROM Users AS u, teacherhomeroom AS t, cip_year AS yr, homeroom AS h WHERE u.userid = t.userId AND t.yearId = yr.yearId AND h.homeroomId = t.homeroomId AND yr.YEAR = year(NOW())

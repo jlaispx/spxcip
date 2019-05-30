@@ -1,0 +1,33 @@
+studentid,First,Last,Id,email,dob
+1,Samuel,Ashman,ASHM01,ashm01@stpiusx.nsw.edu.au,20030715
+2,Luca,Cavaleri,CAVA10,CAVA10@stpiusx.nsw.edu.au,20030114
+3,Michael,Chan,CHAN48,CHAN48@stpiusx.nsw.edu.au,20031020
+4,Benjamin,Chua,CHUA01,CHUA01@stpiusx.nsw.edu.au,20030910
+5,Thomas,Cooper,COOP09,coop09@stpiusx.nsw.edu.au,20031204
+6,Jamie,Corcoran,CORC03,corc03@stpiusx.nsw.edu.au,20031119
+7,Reuben,Cuasay,CUAS03,cuas03@stpiusx.nsw.edu.au,20030911
+8,Zachary,Davidson,DAVI31,davi31@stpiusx.nsw.edu.au,20030223
+9,Daniel,Drake,DRAK05,drak05@stpiusx.nsw.edu.au,20031128
+10,Angelo,Fernando,FERN21,fern21@stpiusx.nsw.edu.au,20040213
+11,Jake,Forbes,FORB02,forb02@stpiusx.nsw.edu.au,20040404
+12,Joshua,Gomez,GOME05,GOME05@stpiusx.nsw.edu.au,20040423
+13,Thomas,Hanley,HANL11,HANL11@stpiusx.nsw.edu.au,20031119
+14,Max ,Harmata,HARM08,HARM08@stpiusx.nsw.edu.au,20031219
+15,Thomas,Hopkins,HOPK06,HOPK06@stpiusx.nsw.edu.au,20030729
+16,James,Hunt,HUNT17,HUNT17@stpiusx.nsw.edu.au,20030530
+17,David,Jelovic,JELO05,JELO05@stpiusx.nsw.edu.au,20030517
+18,Ashley,Johnson,JOHN50,JOHN50@stpiusx.nsw.edu.au,20040216
+19,Bailey,Kee,KEE18,kee18@stpiusx.nsw.edu.au,20040210
+20,Conor,Lo,LO111,lo111@stpiusx.nsw.edu.au,20031106
+21,Jared,Lohtaja,LOHT03,loht03@stpiusx.nsw.edu.au,20040128
+22,Aidan,Lonsdale,LONS03,lons03@stpiusx.nsw.edu.au,20030731
+23,Liam,Masters,MAST10,MAST10@stpiusx.nsw.edu.au,20030710
+24,Nicholas,Moutevelis,MOUT01,MOUT01@stpiusx.nsw.edu.au,20030925
+25,Manav,Purohit,PURO05,PURO05@stpiusx.nsw.edu.au,20040721
+26,Xavier,Rogers,ROGE04,roge04@stpiusx.nsw.edu.au,20040108
+27,James,Shahen,SHAH25,SHAH25@stpiusx.nsw.edu.au,20031208
+28,Oliver,Stephenson,STEP11,step11@stpiusx.nsw.edu.au,20031230
+29,Kevork,Tatarian,TATA02,TATA02@stpiusx.nsw.edu.au,20031106
+30,William,Thomson,THOM29,THOM29@stpiusx.nsw.edu.au,20031231
+31,Thomas,Van Dijk,VAND15,VAND15@stpiusx.nsw.edu.au,20031203
+32,Joshua,Virtue,VIRT05,VIRT05@stpiusx.nsw.edu.au,20030422

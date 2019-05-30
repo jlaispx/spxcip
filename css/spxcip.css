@@ -1,17 +1,17 @@
 @charset "utf-8";
 
 header {
-	background-image: url(../images/spxlogo.jpg);
+	background-image: url(../images/spxlogo.png);
 	background-position: center;
 	background-repeat: no-repeat;
-	height: 150px;
+	height: 100px;
 	background-color:aliceblue;
 }
 header.page-header {
-    background: no-repeat center/contain url(../images/spxlogo.jpg);
+    background: no-repeat center/contain url(../images/spxlogo.png);
     display: flex;
-    height: 150px;
-    min-width: 120px;
+    height: 100px;
+    min-width: 100px;
     align-items: center;
     color: #000;
     text-shadow: #000 0 0 .2em;
@@ -28,19 +28,20 @@ nav {
 }
 nav ul {
 list-style-type: none;
-    margin: 0;
-    padding: 0;
+    margin: 0 auto;
+    padding: 10;
     overflow: hidden;
-    background-color:rgba(50,144,245,1.00);
+    background-color:rgba(50,100,255,1.00);
 } 
 nav ul li {
     float: left;
 }
 nav ul li a {
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 7px 10px;
     text-decoration: none;
 }
 content {
@@ -73,11 +74,16 @@ h2 {
 	color: #0200F8;
 }
 mainContent {
-	
+	background-color:burlywood;
+}
+input[type=number] {
+	background-color: whitesmoke;
+	text-align: right;	
+	width: 3em;
 }
 footer {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
-	font-size: 8px;
+	font-size: 10px;
 	font-weight: bold;
 	color: #EB06F9;
 }

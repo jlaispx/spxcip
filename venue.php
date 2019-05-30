@@ -1,22 +1,12 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-	echo "<script>alert('Login First!');windows.location.href='index.html';</script>";
-	header("Location: index.html");
-	$footer = "Not logged In";
-} else {
-	$username = $_SESSION["username"];
-	$role = $_SESSION["role"];
-	$firstname = $_SESSION["firstname"];
-	$lastname = $_SESSION["lastname"];
-	$footer = "<div><div>Current User: $username</div><div>Name: $firstname $lastname</div></div>";
-}
+require("sessionCheck.php");
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>St Pius X CIP - Manage Venue</title>
-<link href="css/spxcip.css" rel="stylesheet" type="text/css">
+	<title>St Pius X CIP - Manage Venue</title>
+	<link href="css/spxcip.css" rel="stylesheet" type="text/css">
+	<?php require('favicon.php'); ?>
 </head>
 <body>
 <header class="page-header">
@@ -28,6 +18,7 @@ if (!isset($_SESSION['username'])) {
 		<li><a href="venues.php">Manage Venues</a></li>
 		<li><a href="students.php">Manage Students</a></li>
 		<li><a href="ciphours.php">Enter Student Hours</a></li>
+		<li><a href="login.php">Logout</a></li>
 	</ul>
 </nav>
 <maincontent>
