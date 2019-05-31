@@ -25,7 +25,7 @@ if	($method=="POST") {
 $pageHead = "<h2>$year Teacher: $firstName $lastName - Homeroom: $homeroom</h2>";
 
 // GET INFO ABOUT STUDENTS FOR THIS TEACHER AND YEAR
-$sql = 'SELECT s.studentId, s.studentFirstName, s.studentLastName, s.userId, ys.yearstudentId FROM yearstudents AS ys, student AS s, homeroom AS h, cip_year AS yr, teacherhomeroom AS th WHERE ys.studentid = s.studentid AND ys.homeroomid = h.homeroomId AND ys.yearid = yr.yearId AND ys.homeroomid = th.homeroomId AND ys.yearid = th.yearId AND th.userId = "'.$userId.'" AND yr.year = '.$year.' ORDER BY StudentLastName, StudentFirstName';
+$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId, ys.yearstudentId FROM yearstudents AS ys, student AS s, homeroom AS h, cip_year AS yr, teacherhomeroom AS th WHERE ys.studentid = s.studentid AND ys.homeroomid = h.homeroomId AND ys.yearid = yr.yearId AND ys.homeroomid = th.homeroomId AND ys.yearid = th.yearId AND th.userId = "'.$userId.'" AND yr.year = '.$year.' ORDER BY StudentLastName, StudentFirstName';
 		
 $studentList = "";
 $result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
@@ -36,6 +36,7 @@ if (mysqli_num_rows($result)>0) {
 	while($studRow = mysqli_fetch_assoc($result)) {
 		$studentId = $studRow["studentId"];
 		$studentFirstName = $studRow["studentFirstName"];
+		$studentPreferredName = $studRow["studentPreferredName"];
 		$studentLastName = $studRow["studentLastName"];
 		$studentUserId = $studRow["userId"];
 		$studentImage = 'studentImages/'.$studentUserId.'.jpg';
@@ -44,8 +45,11 @@ if (mysqli_num_rows($result)>0) {
 		$studentList .=  "<tr>";
 		$studentList .=  "<td width='150px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
-		$studentList .= "<td width='20%'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
-		$studentList .= "$studentLastName ($studentFirstName)</a></td>";
+		$studentList .= "<td width='20%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentList .= "$studentFirstName ";
+		$spn = ($studentPreferredName=="")? "" :" ($studentPreferredName) "; 
+		$studentList .= " ".$spn." ";
+		$studentList .= " $studentLastName</a></td>";
 		
 		// For each student year - see if any providers
 		$provsql = "SELECT syp.studentYearProviderId, syp.providerId, p.providerName, p.location, syp.cipHours,syp.venueFormFlag, syp.logBookFlag FROM studentyearprovider AS syp, cip_provider AS p, yearstudents AS ys, student AS s WHERE syp.providerId = p.providerId AND syp.yearstudentId = ys.yearstudentId AND ys.studentid = s.studentid AND syp.yearStudentId = ".$yearstudentId;

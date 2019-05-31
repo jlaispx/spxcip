@@ -90,7 +90,7 @@ if ($function=='delete') {
 $pageHead = "<h2>$year Teacher: $firstName $lastName - Homeroom: $homeroom</h2>";
 
 // GET INFO ABOUT THIS STUDENT
-$studsql = 'SELECT s.studentId, s.studentFirstName, s.studentLastName, s.userId, ys.yearstudentId FROM yearstudents AS ys, student AS s WHERE ys.studentId = s.studentId AND ys.yearstudentId ='.$yearstudentId; 
+$studsql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId, ys.yearstudentId FROM yearstudents AS ys, student AS s WHERE ys.studentId = s.studentId AND ys.yearstudentId ='.$yearstudentId; 
 
 $studentList = "<h2>Student Details</h2>";
 
@@ -102,6 +102,7 @@ if (mysqli_num_rows($result)>0) {
 	while($studRow = mysqli_fetch_assoc($result)) {
 		$studentId 			= $studRow["studentId"];
 		$studentFirstName 	= $studRow["studentFirstName"];
+		$studentPreferredName 	= $studRow["studentPreferredName"];
 		$studentLastName 	= $studRow["studentLastName"];
 		$studentUserId 		= $studRow["userId"];
 		$studentImage 		= 'studentImages/'.$studentUserId.'.jpg';
@@ -111,7 +112,10 @@ if (mysqli_num_rows($result)>0) {
 		$studentList .=  "<td width='150px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
 		$studentList .=  "<td><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
-		$studentList .= "$studentLastName ($studentFirstName)</a></td></tr><tr><td></td></tr>";
+		$studentList .= "$studentFirstName";
+		$spn = ($studentPreferredName=="")? "" :" ($studentPreferredName) "; 
+		$studentList .= " ".$spn." ";
+		$studentList .= " $studentLastName</a></td></tr><tr><td></td></tr>";
 	} 
 	$studentList .= "</table>";
 }

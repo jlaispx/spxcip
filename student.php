@@ -34,7 +34,7 @@ FUNCTION editStudent($yearstudentId) {
 	$conn = getConn();
 	// Get Student via the YearStudent
 	
-	$sql = 'SELECT s.studentId, s.studentFirstName, s.studentLastName, s.userId FROM yearstudents as ys, student as s WHERE yearstudentId='.$yearstudentId.' AND ys.studentid = s.studentid';
+	$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId FROM yearstudents as ys, student as s WHERE yearstudentId='.$yearstudentId.' AND ys.studentid = s.studentid';
 			
 	//echo $sql;	
 	$result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
@@ -48,12 +48,14 @@ FUNCTION editStudent($yearstudentId) {
 			$studentId 			= $studRow["studentId"];
 			$_SESSION["studentId"] = $studentId;
 			$studentFirstName 	= $studRow["studentFirstName"];
+			$studentPreferredName 	= $studRow["studentPreferredName"];
 			$studentLastName 	= $studRow["studentLastName"];
 			$studentUserId		= $studRow["userId"];
 			echo "<tr>";
 			echo "<td>Student Id:</td><td>$studentId</td>";
 			echo "</tr><tr>";
 			echo "<td>Student First Name:</td><td><input type='text' name='studentFirstName' value='$studentFirstName'></td>";
+			echo "<td>Student Preferred Name:</td><td><input type='text' name='studentPreferredName' value='$studentPreferredName'></td>";
 			echo "<td>Student Last Name:</td><td><input type='text' name='studentLastName' value='$studentLastName'></td>";
 			echo "</tr><tr>";
 			echo "<td>Student User Id:</td><td><input type='text' name='studentUserId' value='$studentUserId'></td>";
@@ -79,6 +81,7 @@ FUNCTION addStudent() {
 	echo "<form id='student' name='student' action='student.php?function=save' method='post'>";
 	echo "<tr>";
 	echo "<td>Student First Name: </td><td><input type='text' name='studentFirstName'></td>";
+	echo "<td>Student Preferred Name: </td><td><input type='text' name='studentPreferredName'></td>";
 	echo "<td>Student Last Name: </td><td><input type='text' name='studentLastName'></td>";
 	echo "</tr>";
 	echo "<tr>";
@@ -91,12 +94,12 @@ FUNCTION addStudent() {
 	echo "</form>";
 	echo "</table>";
 }
-FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentLastName, $studentUserId,$yearstudentId) {
+FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId) {
 	$success = False;
 	$homeroomId = $_SESSION["homeroomId"];
 	$yearId = $_SESSION["yearId"];
 
-	$sql = 'INSERT INTO student (studentFirstName, studentLastName, userId) VALUES ("'.$studentFirstName.'", "'.$studentLastName.'", "'.$studentUserId.'")';
+	$sql = "INSERT INTO student (studentFirstName, studentPreferredName, studentLastName, userId) VALUES ('$studentFirstName', '$studentPreferredName', '$studentLastName', '$studentUserId')";
 
 	if (mysqli_query($conn,$sql) or die(mysqli_error($conn))) { 
 		$studentId = mysqli_insert_id($conn);
@@ -115,7 +118,7 @@ FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentLastName, 
 	
 }
 	
-FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentLastName, $studentUserId) {
+FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId) {
 	require 'DBUtils.php';
 	$conn = getConn();
 	//echo("Saving....");
@@ -124,7 +127,7 @@ FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentLast
 	if ($studentId=="") {
 		
 		//INSERT
-		if (saveNewStudent($conn,$studentId, $studentFirstName, $studentLastName, $studentUserId,$yearstudentId)) {
+		if (saveNewStudent($conn,$studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId)) {
 			$error = "<p>Record Saved</p>";
 		} else {
 			$error = "<p>Student Not Updated!</p>";
@@ -132,8 +135,8 @@ FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentLast
 	} else { 
 		if (isset($_POST["update"])) {
 		//Update
-			$sql = 'UPDATE student SET studentFirstName="'.$studentFirstName.'", studentLastName="'.$studentLastName.'",
-			userId="'.$studentUserId.'" WHERE studentId='.$studentId;
+			$sql = "UPDATE student SET studentFirstName='$studentFirstName', studentPreferredName='$studentPreferredName', studentLastName='$studentLastName',
+			userId='$studentUserId' WHERE studentId=$studentId";
 		// SAVE STUDENT
 		//echo $sql;	
 			if (mysqli_query($conn,$sql) or die(mysqli_error($conn))) {
@@ -182,9 +185,10 @@ if ($function=="edit") {
 	$studentId = $_POST["studentId"];
 	$yearstudentId=$_POST["yearstudentId"];
 	$studentFirstName=$_POST["studentFirstName"];
+	$studentPreferredName=$_POST["studentPreferredName"];
 	$studentLastName=$_POST["studentLastName"];
 	$studentUserId=$_POST["studentUserId"];
-	saveStudent($yearstudentId,$studentId, $studentFirstName,$studentLastName,$studentUserId);
+	saveStudent($yearstudentId,$studentId, $studentFirstName,$studentPreferredName,$studentLastName,$studentUserId);
 } else {
 	$error="Please Add Student";
 	addStudent();

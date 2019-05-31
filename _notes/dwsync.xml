@@ -16,15 +16,18 @@
 <file name="index.php" server="W:/spxcip/" local="132034358560167197" remote="132034358560000000" Dst="1" />
 <file name="login.php" server="W:/spxcip/" local="132034361687523574" remote="132034361680000000" Dst="1" />
 <file name="logout.php" server="W:/spxcip/" local="132034361413760247" remote="132034361410000000" Dst="1" />
-<file name="nav.php" server="W:/spxcip/" local="132032335086384138" remote="132032335080000000" Dst="1" />
+<file name="nav.php" server="W:/spxcip/" local="132036606049701116" remote="132036606040000000" Dst="1" />
 <file name="README.md" server="W:/spxcip/" local="131880211913932594" remote="131880247910000000" Dst="1" />
 <file name="robots.txt" server="W:/spxcip/" local="131980297077680454" remote="131980333070000000" Dst="1" />
 <file name="sessionCheck.php" server="W:/spxcip/" local="132036611286212827" remote="132036611280000000" Dst="1" />
 <file name="site.webmanifest" server="W:/spxcip/" local="132032339068433969" remote="132032339060000000" Dst="1" />
-<file name="student.php" server="W:/spxcip/" local="132034359732370921" remote="132034359730000000" Dst="1" />
-<file name="students.php" server="W:/spxcip/" local="132034359938317863" remote="132034359930000000" Dst="1" />
-<file name="studentYearProvider.php" server="W:/spxcip/" local="132036656591957364" remote="132036656590000000" Dst="1" />
+<file name="student.php" server="W:/spxcip/" local="132037376882671964" remote="132037376880000000" Dst="1" />
+<file name="students.php" server="W:/spxcip/" local="132037363002572914" remote="132037363000000000" Dst="1" />
+<file name="studentYearProvider.php" server="W:/spxcip/" local="132037369439025997" remote="132037369430000000" Dst="1" />
 <file name="venue.php" server="W:/spxcip/" local="132034360443230758" remote="132034360440000000" Dst="1" />
 <file name="venues.php" server="W:/spxcip/" local="132034360711030080" remote="132034360710000000" Dst="1" />
 <file name="favicon.php" server="W:/spxcip/" local="132034359238493690" remote="132034359230000000" Dst="1" />
+<file name="studentImport.php" server="W:/spxcip/" local="132037345195680233" remote="132037345190000000" Dst="1" />
+<file name="studentImportUpdate.php" server="W:/spxcip/" local="132037343161040405" remote="132037343160000000" Dst="1" />
+<file name="studentImport.csv" server="W:/spxcip/" local="132037361680331390" remote="132037361680000000" Dst="1" />
 </dwsync>

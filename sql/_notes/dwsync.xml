@@ -6,4 +6,7 @@
 <file name="StudentYear.sql" server="W:/spxcip/" local="132026910865939593" remote="132026910860000000" Dst="1" />
 <file name="studentYearHomeRoomUser.sql" server="W:/spxcip/" local="132025378482533572" remote="132025378480000000" Dst="1" />
 <file name="venuesForYearStudent.sql" server="W:/spxcip/" local="132026199552017251" remote="132026199550000000" Dst="1" />
+<file name="backup1.sql" server="W:/spxcip/" local="132037338160457068" remote="132037338160000000" Dst="1" />
+<file name="migration.sql" server="W:/spxcip/" local="132036658489673159" remote="132036658480000000" Dst="1" />
+<file name="Livebackup1.sql" server="W:/spxcip/" local="132037362357994606" remote="132037362350000000" Dst="1" />
 </dwsync>
