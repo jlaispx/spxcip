@@ -1,9 +1,6 @@
 <?php
 require("sessionCheck.php");
-
-FUNCTION esc($string) {
-	return str_replace("'","&rsquo;",$string);
-}
+require('escape.php');
 
 $error="Please choose a Student to maintain or click Add Student";  //Default message
 require 'DBUtils.php';
@@ -33,6 +30,7 @@ if (mysqli_num_rows($result)>0) {
 	// Get the results into venue list 
 	$studentList .= "<form id='students' name='students' action='' method='post' class='tableText'>";
 	$studentList .=  "<table width='80%' border='1'>";
+	$studentList .=  "<tr><th colspan='2'>Student</th><th>Venues</th><th>Total Hours</th></tr>";
 	while($studRow = mysqli_fetch_assoc($result)) {
 		$studentId = $studRow["studentId"];
 		$studentFirstName = $studRow["studentFirstName"];
@@ -41,43 +39,56 @@ if (mysqli_num_rows($result)>0) {
 		$studentUserId = $studRow["userId"];
 		$studentImage = 'studentImages/'.$studentUserId.'.jpg';
 		$yearstudentId = $studRow['yearstudentId'];
-
 		$studentList .=  "<tr>";
-		$studentList .=  "<td width='150px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentList .=  "<td width='100px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
-		$studentList .= "<td width='20%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentList .= "<td width='15%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "$studentFirstName ";
 		$spn = ($studentPreferredName=="")? "" :" ($studentPreferredName) "; 
 		$studentList .= " ".$spn." ";
 		$studentList .= " $studentLastName</a></td>";
 		
 		// For each student year - see if any providers
-		$provsql = "SELECT syp.studentYearProviderId, syp.providerId, p.providerName, p.location, syp.cipHours,syp.venueFormFlag, syp.logBookFlag FROM studentyearprovider AS syp, cip_provider AS p, yearstudents AS ys, student AS s WHERE syp.providerId = p.providerId AND syp.yearstudentId = ys.yearstudentId AND ys.studentid = s.studentid AND syp.yearStudentId = ".$yearstudentId;
+		$provsql = "SELECT syp.studentYearProviderId, syp.providerId, p.providerName, p.location, syp.cipHours,syp.venueFormFlag, syp.logBookFlag, syp.comments FROM studentyearprovider AS syp, cip_provider AS p, yearstudents AS ys, student AS s WHERE syp.providerId = p.providerId AND syp.yearstudentId = ys.yearstudentId AND ys.studentid = s.studentid AND syp.yearStudentId = ".$yearstudentId;
 
-		$studentList .=  "<td><ol>";
 		$studentYearProviderId = -1;
 		
-		$provresult = mysqli_query($conn,$provsql) or die(mysqli_error($conn)) ;  
+		$provresult = mysqli_query($conn,$provsql) or die(mysqli_error($conn)) ;
+		//echo (mysqli_num_rows($result));
 		if (mysqli_num_rows($result)>0) {
+			$studentList .=  "<td><ol>";
 			// Get the results into venue list 
+			$totalCipHrs = 0;
+			$present = 0;
 			while($provRow = mysqli_fetch_assoc($provresult)) {
+				$present=1;
 				$studentYearProviderId = $provRow["studentYearProviderId"];
 				$providerId = $provRow["providerId"];
 				$providerName = $provRow["providerName"];
 				$location = $provRow["location"];
 				$cipHours = $provRow["cipHours"];
+				$totalCipHrs += $cipHours;
 				$venueFormFlag = $provRow["venueFormFlag"]==1?'Y' : 'N';
 				$logBookFlag = $provRow["logBookFlag"]==1?'Y':'N';
-				
-				$studentList .= "<li><table width='100%'><tr><td width='50%'><a href='studentYearProvider.php?studentYearProviderId=".$studentYearProviderId."&yearstudentId=".$yearstudentId."&function=edit'>".$providerName." (".$location.")</a></td><td width='10%'>".$cipHours." hrs</td><td width='30%'>(Venue Form? ".$venueFormFlag.", Log Book? ".$logBookFlag.")</td></tr></table></li>";
+				$comments = unesc($provRow["comments"]);
+				$studentList .= "<li><table width='100%'><tr><td width='50%'><a href='studentYearProvider.php?studentYearProviderId=".$studentYearProviderId."&yearstudentId=".$yearstudentId."&function=edit' title='$comments'>".$providerName." (".$location.")</a></td><td width='10%'>".$cipHours." hrs</td><td width='40%'>(Venue Form? <b>".$venueFormFlag."</b>, Log Book? <b>".$logBookFlag."</b>)</td></tr></table></li>";
 			}
-		} 
-		$studentList .= "<li><a href='studentYearProvider.php?yearstudentId=".$yearstudentId."&function=add'>Add New Venue</a></li>";
-		$studentList .=  "</ol></td>";
+			$studentList .= "";
+			if ($present==0) {
+				$studentList .= "<div><a href='studentYearProvider.php?yearstudentId=".$yearstudentId."&function=add'>Add New Venue</a></div>";
+			}
+			$studentList .= "</ol></td>";
+		} else {
+			//echo("here");
+		}
+		$studentList .= "<td><table width='85%'>";
+		$studentList .= "<tr><td align='right'><b>$totalCipHrs hrs</b></td></tr>";
+		$studentList .=  "</table></td>\n";
 
 		$studentList .=  "</tr>";
 	} 
 	$studentList .=  "</table>";
+	$studentList .=  "<p></p>";
 	$studentList .=  "<button type='submit' name='new'>Add New Student</button>";
 	$studentList .=  "<p></p>";
 	$studentList .=  "</form>";

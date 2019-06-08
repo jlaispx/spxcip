@@ -12,23 +12,13 @@ require("sessionCheck.php");
 <header class="page-header">
 <h1>St Pius X CIP Hours</h1>
 </header>
-<nav>
-	<ul>
-		<li><a href="index.html">Home</a></li>
-		<li><a href="venues.php">Manage Venues</a></li>
-		<li><a href="students.php">Manage Students</a></li>
-		<li><a href="ciphours.php">Enter Student Hours</a></li>
-		<li><a href="login.php">Logout</a></li>
-	</ul>
-</nav>
+<?php require("nav.php"); ?>
 <maincontent>
 
 <h1>Manage Venue</h1>
 <div>
 <?php
-FUNCTION esc($string) {
-	return str_replace("'","&rsquo;",$string);
-}
+require('escape.php');
 	
 FUNCTION editVenue($providerId) {
 	require 'DBUtils.php';
@@ -54,9 +44,9 @@ FUNCTION editVenue($providerId) {
 			echo "<tr>";
 			echo "<td>Venue Id:</td><td>$providerId</td>";
 			echo "</tr><tr>";
-			echo "<td>Venue Name:</td><td><input type='text' name='providerName' value='$providerName'></td>";
+			echo "<td>Venue Name:</td><td><input type='text' name='providerName' value='".html_entity_decode($providerName)."'></td>";
 			echo "</tr><tr>";
-			echo "<td>Location:</td><td><input type='text' name='location' value='$location'></td>";
+			echo "<td>Location:</td><td><input type='text' name='location' value='".html_entity_decode($location)."'></td>";
 			echo "</tr><tr>";
 			echo "<input type='hidden' name='providerId' value='$providerId'>";
 		} 
@@ -91,14 +81,17 @@ FUNCTION addVenue() {
 
 FUNCTION saveVenue($providerId, $providerName, $location) {
 	echo("Saving....");
+	$function = "Updated";
 	if ($providerId=="") {
 		//INSERT
-		$sql = 'INSERT INTO cip_provider (providerName, location) VALUES ("'.$providerName.'", "'.$location.'")';
+		$function="Added";
+		$sql = 'INSERT INTO cip_provider (providerName, location) SELECT "'.htmlentities(ucwords($providerName)).'", "'.htmlentities(ucwords($location)).'" FROM DUAL WHERE NOT EXISTS( SELECT providerName FROM cip_provider WHERE LOWER(providerName) = LOWER("'.$providerName.'") AND LOWER(location) = LOWER("'.$location.'")) LIMIT 1';
 	} else if (isset($_POST["update"])) {
 		//Update
-		$sql = 'UPDATE cip_provider SET providerName="'.$providerName.'", location="'.$location.'" WHERE providerId='.$providerId;
+		$sql = 'UPDATE cip_provider SET providerName="'.htmlentities(ucwords($providerName)).'", location="'.htmlentities(ucwords($location)).'" WHERE providerId='.$providerId;
 	} else if (isset($_POST["delete"])) {
-		//Update
+		//Delete
+		$function="Deleted";
 		$sql = 'DELETE FROM cip_provider WHERE providerId='.$providerId;
 	}
 	require 'DBUtils.php';
@@ -111,7 +104,7 @@ FUNCTION saveVenue($providerId, $providerName, $location) {
 		if ($providerId=='') { $providerId = mysqli_insert_id($conn);}
 		$_SESSION['providerId']=$providerId;
 	} else {
-		$error = "<p>Venue Not Updated!</p>";
+		$error = "<p>Venue Not $function!</p>";
 	}
 	echo "<script>alert('Finished Maintain Venue');</script>";
 	header("Location: venues.php");	
@@ -140,8 +133,8 @@ if ($function=="edit") {
 	
 } else if ($function=="save") {
 	$providerId=$_POST["providerId"];
-	$providerName=$_POST["providerName"];
-	$location=$_POST["location"];
+	$providerName=htmlentities($_POST["providerName"]);
+	$location=htmlentities($_POST["location"]);
 	saveVenue($providerId,$providerName,$location);
 } else {
 	$error="Please Add Venue";

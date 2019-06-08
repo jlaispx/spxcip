@@ -1,8 +1,7 @@
 <?php
 require("sessionCheck.php");
-FUNCTION esc($string) {
-	return str_replace("'","&rsquo;",$string);
-}
+require('escape.php');
+
 $userId = $_SESSION['userId'];
 $yearId = $_SESSION['yearId'];
 $year = $_SESSION['year'];

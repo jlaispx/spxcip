@@ -9,4 +9,5 @@
 <file name="backup1.sql" server="W:/spxcip/" local="132037338160457068" remote="132037338160000000" Dst="1" />
 <file name="migration.sql" server="W:/spxcip/" local="132036658489673159" remote="132036658480000000" Dst="1" />
 <file name="Livebackup1.sql" server="W:/spxcip/" local="132037362357994606" remote="132037362350000000" Dst="1" />
+<file name="studentimport.sql" server="W:/spxcip/" local="132037383658804221" remote="132037383650000000" Dst="1" />
 </dwsync>

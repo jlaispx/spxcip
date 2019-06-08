@@ -1,8 +1,6 @@
 <?php
 require("sessionCheck.php");
-FUNCTION esc($string) {
-	return str_replace("'","&rsquo;",$string);
-}
+require("escape.php");
 
 $userId = $_SESSION['userId'];
 $yearId = $_SESSION['yearId'];
@@ -27,16 +25,17 @@ $venueList = "";
 $result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
 if (mysqli_num_rows($result)>0) {
 	// Get the results into venue list 
-	$venueList .= "<form id='venues' name='venues' action='venue.php' method='post' class='tableText'>";
-	$venueList .= "<ol>";
+	$venueList .= "<form id='venues' name='venues' action='venue.php' method='post'>";
+	$venueList .= "<table id='myTable' width='80%'><tr class='header'><th width='60%'>Provider Name</th><th width='40%'>Location</th></tr>";
 	while($provRow = mysqli_fetch_assoc($result)) {
 		$providerId = $provRow["providerId"];
 		$providerName = $provRow["providerName"];
 		$location=$provRow["location"];
-		$venueList .= "<li><a href='venue.php?venue=$providerId&function=edit'>".$providerName.' ('.$location.')'."</a>";
-		$venueList .= "</li>";
+		$venueList .= "<tr><td><a href='venue.php?venue=$providerId&function=edit'>$providerName</a></td>";
+		$venueList .= "<td><a href='venue.php?venue=$providerId&function=edit'>$location</a>";
+		$venueList .= "</td></tr>";
 	} 
-	$venueList .= "</ol>";
+	$venueList .= "</table>";
 	$venueList .= "<button type='submit' name='new'>Add New Venue</button>";
 	$venueList .= "<p></p>";
 	$venueList .= "</form>";
@@ -51,6 +50,8 @@ if (mysqli_num_rows($result)>0) {
 <head>
 	<title>St Pius X CIP - Manage Venues</title>
 	<link href="css/spxcip.css" rel="stylesheet" type="text/css">
+	<link href="css/filterTable.css" rel="stylesheet" type="text/css">
+
 	<?php require('favicon.php'); ?>
 </head>
 <body>
@@ -62,9 +63,33 @@ if (mysqli_num_rows($result)>0) {
 <?php echo($pageHead); ?>
 <h1>Manage Venues</h1>
 <div>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Venues..">
 <?php echo($venueList);
 ?>
 </div>
+<script>
+function myFunction() {
+  // Declare variables 
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+}
+</script>
 <span><p><?php echo $error; ?></p></span>
 </maincontent>
 <footer>
@@ -72,6 +97,5 @@ Copyright Mr Lai 2018
 <span><?php echo $footer;?>
 </span>	
 </footer>
-
 </body>
 </html>

@@ -1,10 +1,6 @@
 <?php
 require("sessionCheck.php");
-
-FUNCTION esc($string) {
-	return str_replace("'","&rsquo;",$string);
-}
-
+require("escape.php");
 $error="Please choose a Venue to connect to a Student";  //Default message
 require 'DBUtils.php';
 $conn = getConn();
@@ -44,7 +40,8 @@ if	($method=="POST") {
 			$vFF = ISSET($venueFormFlag[$x]) ? 1 : 0;
 			$lBF = ISSET($logBookFlag[$x]) ? 1 : 0;
 			//$comm = ISSET($comments[$x]) ? $comments[$x] :None; 
-			$sql = "UPDATE studentYearProvider SET cipHours=".$cipHours[$x].", venueFormFlag=".$vFF.", logBookFlag=".$lBF.", comments='".$comments[$x]."' WHERE studentYearProviderId=".$studentYearProviderId[$x].';';
+			//echo($comments[$x]);
+			$sql = "UPDATE studentYearProvider SET cipHours=".$cipHours[$x].", venueFormFlag=".$vFF.", logBookFlag=".$lBF.", comments='".esc($comments[$x])."' WHERE studentYearProviderId=".$studentYearProviderId[$x].';';
 			//echo($sql);
 			if (mysqli_query($conn,$sql) or die(mysqli_error($conn))) {
 				$success++;
@@ -169,7 +166,7 @@ if (mysqli_num_rows($result)>0) {
 			$studentYearProviderList .= "checked";
 		}
 		$studentYearProviderList .= "/></td>";
-		$studentYearProviderList .= "<td width='20%'><input type='text' name='comments[$p]' size='80'  value='".$comments."' id='comments'/></td>";
+		$studentYearProviderList .= "<td width='20%'><input type='text' name='comments[$p]' size='80'  value='".unesc($comments)."' id='comments'/></td>";
 		$studentYearProviderList .= "<td align='center'><a href='studentYearProvider.php?studentYearProviderId=".$studentYearProviderId."&function=delete'>delete</a></td>";
 		$studentYearProviderList .= "</tr>\n";
 		$p++;

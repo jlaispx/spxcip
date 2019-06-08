@@ -16,9 +16,7 @@ if (isset($_SESSION['LAST_ACTIVITY'])) {
 	echo("<script>console.log(".($time - $_SESSION['LAST_ACTIVITY'])."</script>");
    	IF (($time - $_SESSION['LAST_ACTIVITY']) > $timeout_duration)  {
 		echo "<script>console.log('Timeout at ".$time."');</script>";
-		session_unset();
-		session_destroy();
-		session_start();
+		header("Location: logout.php");
 		} else {
 			session_start();	
 		}

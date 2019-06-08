@@ -4,9 +4,9 @@ function alert($message) {
 }
 session_start();
 
-$error="Processing Login";  //Default message
 require 'DBUtils.php';
 $footer="Not Logged In";
+$error="";
 $method= $_SERVER["REQUEST_METHOD"];
 
 if	($method=="POST") {
@@ -24,7 +24,12 @@ if	($method=="POST") {
 		//Get Login fields
 		$username = $_POST["username"];
 		$password = $_POST["password"];
-
+		if ($password=="reset") {
+			header("Location: passchange.php");
+		}
+		$salt = '$5$rounds=5000$stpiusxcipsystem2019jlai';
+		$password=crypt($password, $salt);
+		//echo($password);
 		$sql = "SELECT u.UserID, u.UserName, u.PASSWORD, u.firstName, u.lastName, u.Email, u.Role, h.homeroomId, h.homeroom, yr.yearId, yr.year FROM Users AS u, teacherhomeroom AS t, cip_year AS yr, homeroom AS h WHERE u.userid = t.userId AND t.yearId = yr.yearId AND h.homeroomId = t.homeroomId AND yr.YEAR = year(NOW()) AND LOWER(u.UserName) = LOWER('$username') AND u.Password = '$password'";
 		
 		$result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
@@ -48,7 +53,7 @@ if	($method=="POST") {
 			} else {
 				$error = "<p>($username) $firstName $lastName logged In Successfully</p>";
 			}
-			echo($method." here2");
+			//echo($method." here2");
 			$_SESSION["username"]=$username;
 			//$_SESSION["password"]=$password;
 			$_SESSION["firstName"]=$firstName;
@@ -109,7 +114,6 @@ if	($method=="POST") {
 	
 	
 <div>
-
 </div>
 <span><?php echo $error; ?></span>
 </maincontent>
