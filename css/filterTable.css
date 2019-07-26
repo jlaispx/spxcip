@@ -1,34 +1,44 @@
 @charset "utf-8";
 
-#myInput {
-  background-image: url('../images/searchicon.png'); /* Add a search icon to input */
+.myInput {
+  background-image: url('../images/searchicon2.png'); /* Add a search icon to input */
   background-position: 1px 2px; /* Position the search icon */
   background-repeat: no-repeat; /* Do not repeat the icon image */
-  width: 50%; /* Full-width */
+  width: 25%; /* Full-width */
   font-size: 14px; /* Increase font-size */
-  padding: 12px 20px 12px 40px; /* Add some padding */
+  padding: 10px 20px 10px 40px; /* Add some padding */
   border: 1px solid #ddd; /* Add a grey border */
   margin-bottom: 12px; /* Add some space below the input */
 }
 
-#myTable {
+#myTable, #myTable1 {
   border-collapse: collapse; /* Collapse borders */
-  width: 50%; /* Full-width */
+  width: 100%; /* Full-width */
   border: 1px solid #ddd; /* Add a grey border */
   font-size: 13px; /* Increase font-size */
 }
 
-#myTable th, #myTable td {
+#myTable th, #myTable td, #myTable1 th, #myTable1 td {
   text-align: left; /* Left-align text */
   padding: 6px; /* Add padding */
 }
 
-#myTable tr {
+#myTable tr, #myTable1 tr {
   /* Add a bottom border to all table rows */
   border-bottom: 1px solid #ddd; 
 }
 
-#myTable tr.header, #myTable tr:hover {
+#myTable tr.header, #myTable tr:hover, #myTable1 tr.header, #myTable1 tr:hover {
   /* Add a grey background color to the table header and on hover */
   background-color: #f1f1f1;
 }
+.rTable    		{ display: table;
+				  width: 100%;
+				}
+.rTableRow		{ display: table-row;
+					border-style: hidden;
+				}
+.rTableHeading	{ display: table-header-group; }
+.rTableBody		{ display: table-row-group; }
+.rTableFoot		{ display: table-footer-group; }
+.rTableCell, .rTableHead  { display: table-cell; }

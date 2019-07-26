@@ -1,10 +1,11 @@
  <?php
- //$dbserver = "127.0.0.1";
- //$dbserver = "spx-webtest-s01";
-$dbserver = $_SERVER['SERVER_NAME']; 
+//$dbserver = "127.0.0.1";
+//$dbserver = "spx-webtest-s01";
+//$dbserver = "172.2.16.214";
+$dbserver 	= $_SERVER['SERVER_NAME']; 
 $dbusername = "cip_user";
 $dbpassword = "password";
-$dbname = "cip_db";
+$dbname 	= "cip_db";
 /*
 echo $_SERVER['PHP_SELF'];
 echo "<br>";

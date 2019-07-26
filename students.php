@@ -29,18 +29,19 @@ $result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;
 if (mysqli_num_rows($result)>0) {
 	// Get the results into venue list 
 	$studentList .= "<form id='students' name='students' action='' method='post' class='tableText'>";
-	$studentList .=  "<table width='80%' border='1'>";
-	$studentList .=  "<tr><th colspan='2'>Student</th><th>Venues</th><th>Total Hours</th></tr>";
+	$studentList .=  "<table width='100%'  id='myTable'>";
+	$studentList .=  "<tr class='header'><th>Homeroom</th><th></th><th >Student</th><th>Venues</th><th>Total Hours</th></tr>";
 	while($studRow = mysqli_fetch_assoc($result)) {
-		$studentId = $studRow["studentId"];
-		$studentFirstName = $studRow["studentFirstName"];
+		$studentId 			= $studRow["studentId"];
+		$studentFirstName 	= $studRow["studentFirstName"];
 		$studentPreferredName = $studRow["studentPreferredName"];
-		$studentLastName = $studRow["studentLastName"];
-		$studentUserId = $studRow["userId"];
-		$studentImage = 'studentImages/'.$studentUserId.'.jpg';
-		$yearstudentId = $studRow['yearstudentId'];
-		$studentList .=  "<tr>";
-		$studentList .=  "<td width='100px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentLastName 	= $studRow["studentLastName"];
+		$studentUserId 		= $studRow["userId"];
+		$studentImage 		= 'studentImages/'.$studentUserId.'.jpg';
+		$yearstudentId 		= $studRow['yearstudentId'];
+		$studentList 		.= "<tr>";
+		$studentList		.= "<td align='center'>$homeroom</td>";
+		$studentList .= "<td width='100px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
 		$studentList .= "<td width='15%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "$studentFirstName ";
@@ -56,22 +57,23 @@ if (mysqli_num_rows($result)>0) {
 		$provresult = mysqli_query($conn,$provsql) or die(mysqli_error($conn)) ;
 		//echo (mysqli_num_rows($result));
 		if (mysqli_num_rows($result)>0) {
-			$studentList .=  "<td><ol>";
+			$studentList .=  "<td width='60%'><ol>";
 			// Get the results into venue list 
 			$totalCipHrs = 0;
 			$present = 0;
 			while($provRow = mysqli_fetch_assoc($provresult)) {
 				$present=1;
-				$studentYearProviderId = $provRow["studentYearProviderId"];
-				$providerId = $provRow["providerId"];
-				$providerName = $provRow["providerName"];
-				$location = $provRow["location"];
-				$cipHours = $provRow["cipHours"];
+				$studentYearProviderId 	= $provRow["studentYearProviderId"];
+				$providerId 			= $provRow["providerId"];
+				$providerName 			= $provRow["providerName"];
+				$location 				= $provRow["location"];
+				$cipHours 				= $provRow["cipHours"];
 				$totalCipHrs += $cipHours;
-				$venueFormFlag = $provRow["venueFormFlag"]==1?'Y' : 'N';
-				$logBookFlag = $provRow["logBookFlag"]==1?'Y':'N';
-				$comments = unesc($provRow["comments"]);
-				$studentList .= "<li><table width='100%'><tr><td width='50%'><a href='studentYearProvider.php?studentYearProviderId=".$studentYearProviderId."&yearstudentId=".$yearstudentId."&function=edit' title='$comments'>".$providerName." (".$location.")</a></td><td width='10%'>".$cipHours." hrs</td><td width='40%'>(Venue Form? <b>".$venueFormFlag."</b>, Log Book? <b>".$logBookFlag."</b>)</td></tr></table></li>";
+				$venueFormFlag 			= $provRow["venueFormFlag"]==1?'Y' : 'N';
+				$logBookFlag 			= $provRow["logBookFlag"]==1?'Y':'N';
+				$comments 				= unesc($provRow["comments"]);
+				
+				$studentList .= "<li><div id='myTable1' style='width:100%;' class='rTable'><div class='rTableRow'><div style='width:50%;' class='rTableCell'><a href='studentYearProvider.php?studentYearProviderId=".$studentYearProviderId."&yearstudentId=".$yearstudentId."&function=edit' title='$comments'>".$providerName." (".$location.")</a></div><div style='width:10%;' class='rTableCell'>".$cipHours." hrs</div><span style='width:40%;'>(Venue Form? <b>".$venueFormFlag."</b>, Log Book? <b>".$logBookFlag."</b>)</span></div></div></li>";
 			}
 			$studentList .= "";
 			if ($present==0) {
@@ -82,8 +84,18 @@ if (mysqli_num_rows($result)>0) {
 			//echo("here");
 		}
 		$studentList .= "<td><table width='85%'>";
-		$studentList .= "<tr><td align='right'><b>$totalCipHrs hrs</b></td></tr>";
-		$studentList .=  "</table></td>\n";
+		$studentList .= "<tr><td align='right'>";
+		if ($totalCipHrs>=20) {
+			$studentList .= "<b><div style='background-color:lightblue;color:red;'>$totalCipHrs hrs</div></b></td>";
+		} else {
+			$studentList .= "<b>$totalCipHrs hrs</b></td>";
+		}
+		if ($totalCipHrs>=20) {
+			$studentList .= "<td><b>Y</b></td>";
+		} else {
+			$studentList .= "<td><b>N</b></td>";
+		}
+		$studentList .=  "</tr></table></td>\n";
 
 		$studentList .=  "</tr>";
 	} 
@@ -103,6 +115,8 @@ if (mysqli_num_rows($result)>0) {
 <head>
 	<title>St Pius X CIP - Manage Students</title>
 	<link href="css/spxcip.css" rel="stylesheet" type="text/css">
+	<link href="css/filterTable.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="js/filterTable.js"></script>
 	<?php require('favicon.php'); ?>
 </head>
 <body>
@@ -114,8 +128,12 @@ if (mysqli_num_rows($result)>0) {
 <?php echo($pageHead); ?>
 <h1>Manage Students</h1>
 <div>
+<input type="text" class="myInput" id="myInput0" onkeyup="myFunction(0)" placeholder="filter by Homeroom..">
+<input type="text" class="myInput" id="myInput2" onkeyup="myFunction(2)" placeholder="filter by Student..">
+<input type="text" class="myInput" id="myInput6" onkeyup="myFunction(6)" placeholder="filter by Completed..">
 <?php echo($studentList); ?>
 </div>
+
 <span><p><?php echo $error; ?></p></span>
 </maincontent>
 <footer>

@@ -51,7 +51,7 @@ if (mysqli_num_rows($result)>0) {
 	<title>St Pius X CIP - Manage Venues</title>
 	<link href="css/spxcip.css" rel="stylesheet" type="text/css">
 	<link href="css/filterTable.css" rel="stylesheet" type="text/css">
-
+	<script type="text/javascript" src="js/filterTable.js"></script>
 	<?php require('favicon.php'); ?>
 </head>
 <body>
@@ -63,33 +63,10 @@ if (mysqli_num_rows($result)>0) {
 <?php echo($pageHead); ?>
 <h1>Manage Venues</h1>
 <div>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Venues..">
+<input type="text" class="myInput" id="myInput0" onkeyup="myFunction(0)" placeholder="Search for Venues..">
 <?php echo($venueList);
 ?>
 </div>
-<script>
-function myFunction() {
-  // Declare variables 
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    } 
-  }
-}
-</script>
 <span><p><?php echo $error; ?></p></span>
 </maincontent>
 <footer>

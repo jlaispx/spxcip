@@ -19,10 +19,10 @@
 <file name="nav.php" server="W:/spxcip/" local="132039926787451157" remote="132039926780000000" Dst="1" />
 <file name="README.md" server="W:/spxcip/" local="131880211913932594" remote="131880247910000000" Dst="1" />
 <file name="robots.txt" server="W:/spxcip/" local="131980297077680454" remote="131980333070000000" Dst="1" />
-<file name="sessionCheck.php" server="W:/spxcip/" local="132039409619200634" remote="132039409610000000" Dst="1" />
+<file name="sessionCheck.php" server="W:/spxcip/" local="132060411042210963" remote="132060411040000000" Dst="1" />
 <file name="site.webmanifest" server="W:/spxcip/" local="132032339068433969" remote="132032339060000000" Dst="1" />
 <file name="student.php" server="W:/spxcip/" local="132042524597968797" remote="132042524590000000" Dst="1" />
-<file name="students.php" server="W:/spxcip/" local="132043391164453784" remote="132043391160000000" Dst="1" />
+<file name="students.php" server="W:/spxcip/" local="132058509969621751" remote="132058509960000000" Dst="1" />
 <file name="studentYearProvider.php" server="W:/spxcip/" local="132042670191941003" remote="132042670190000000" Dst="1" />
 <file name="venue.php" server="W:/spxcip/" local="132042554243765058" remote="132042554240000000" Dst="1" />
 <file name="venues.php" server="W:/spxcip/" local="132041879371531397" remote="132041879370000000" Dst="1" />
@@ -33,4 +33,5 @@
 <file name="passchange.php" server="W:/spxcip/" local="132039498450202459" remote="132039498450000000" Dst="1" />
 <file name="testpass.php" server="W:/spxcip/" local="132039479873326027" remote="132039479870000000" Dst="1" />
 <file name="escape.php" server="W:/spxcip/" local="132042698328970880" remote="132042698320000000" Dst="1" />
+<file name="pastoralComments.php" server="W:/spxcip/" local="132054780675316501" remote="132054780670000000" Dst="1" />
 </dwsync>
