@@ -85,7 +85,9 @@ if (mysqli_num_rows($result)>0) {
 		}
 		$studentList .= "<td><table width='85%'>";
 		$studentList .= "<tr><td align='right'>";
-		if ($totalCipHrs>=20) {
+		if ($totalCipHrs==0) {
+			$studentList .= "<b><div style='background-color:yellow;color:red;'>$totalCipHrs hrs</div></b></td>";
+		} else if ($totalCipHrs>=20) {
 			$studentList .= "<b><div style='background-color:lightblue;color:red;'>$totalCipHrs hrs</div></b></td>";
 		} else {
 			$studentList .= "<b>$totalCipHrs hrs</b></td>";
