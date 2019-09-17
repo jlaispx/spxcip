@@ -24,7 +24,7 @@ if	($method=="POST") {
 		if ($password0 !== "reset") {
 			$password0=crypt($password0, $salt);
 		}	
-		$sql = "SELECT u.UserID, u.UserName, u.PASSWORD FROM Users AS u WHERE LOWER(u.UserName) = LOWER('$username') AND u.Password = '$password0'";
+		$sql = "SELECT u.userId, u.userName, u.password FROM users AS u WHERE LOWER(u.userName) = LOWER('$username') AND u.password = '$password0'";
 		
 		$result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
 		//$result = $conn->query($sql);
@@ -32,12 +32,12 @@ if	($method=="POST") {
 		if (mysqli_num_rows($result)==1) {
 			// Get the results into $row 
 			$row = mysqli_fetch_assoc($result);
-			$userId = $row['UserID'];
+			$userId = $row['userId'];
 			IF ($password1 !== $password2) {
 				$error = "<p>(Password Change) New passwords do not match - please re-enter new passwords</p>";
 			} ELSE {
 				$password=crypt($password1, $salt);
-				$sql = "UPDATE Users SET password='$password' WHERE UserID = $userId";
+				$sql = "UPDATE users SET password='$password' WHERE userId = $userId";
 				IF (mysqli_query($conn,$sql) or die(mysqli_error($conn))) {
 					$error = "<p>Password updated</p>";
 					echo ("<script>console.log('$username password updated - ".$_SERVER['REQUEST_TIME']."')</script>");

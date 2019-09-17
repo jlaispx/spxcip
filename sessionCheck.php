@@ -1,7 +1,8 @@
 <?php
-session_start();
+
 echo "<script>console.log('session check')</script>";
 $time = $_SERVER['REQUEST_TIME'];
+session_start();
 echo("<script>console.log('Current Time:".$time."');</script>");
 
 /**
@@ -46,7 +47,8 @@ if (!isset($_SESSION['username'])) {
 	$role 		= $_SESSION["role"];
 	$firstName 	= $_SESSION["firstName"];
 	$lastName 	= $_SESSION["lastName"];
-	$footer = "Copyright Mr Lai 2018<div><div>Current User: $username</div><div>Name: $firstName $lastName</div></div>";
+	$systemAdmin = $_SESSION["systemAdmin"];
+	$footer = "Copyright Joseph Lai 2019<div><div>Current User: $username</div><div>Name: $firstName $lastName ($systemAdmin)</div></div>";
 	echo ("<script>console.log('logged in as $username');</script>");
 	$_SESSION["footer"] = $footer;
 	//echo("Logged in as ".$username);
