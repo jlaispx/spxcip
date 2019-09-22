@@ -45,10 +45,11 @@ if (!isset($_SESSION['username'])) {
 } else {
 	$username 	= $_SESSION["username"];
 	$role 		= $_SESSION["role"];
+	$userRole	= $_SESSION["userRole"];
 	$firstName 	= $_SESSION["firstName"];
 	$lastName 	= $_SESSION["lastName"];
 	$systemAdmin = $_SESSION["systemAdmin"];
-	$footer = "Copyright Joseph Lai 2019<div><div>Current User: $username</div><div>Name: $firstName $lastName ($systemAdmin)</div></div>";
+	$footer = "Copyright Joseph Lai 2019<div><div>Current User: $username</div><div>Name: $firstName $lastName ($userRole)</div></div>";
 	echo ("<script>console.log('logged in as $username');</script>");
 	$_SESSION["footer"] = $footer;
 	//echo("Logged in as ".$username);

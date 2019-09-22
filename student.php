@@ -2,13 +2,13 @@
 require("sessionCheck.php");
 require('escape.php');
 
-$userId = $_SESSION['userId'];
-$yearId = $_SESSION['yearId'];
-$year = $_SESSION['year'];
-$firstName = $_SESSION["firstName"];
-$lastName = $_SESSION["lastName"];
+$userId 	= $_SESSION['userId'];
+$yearId 	= $_SESSION['yearId'];
+$year 		= $_SESSION['year'];
+$firstName 	= $_SESSION["firstName"];
+$lastName 	= $_SESSION["lastName"];
 $homeroomId = $_SESSION['homeroomId'];
-$homeroom = $_SESSION['homeroom'];	
+$homeroom 	= $_SESSION['homeroom'];	
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,41 +33,60 @@ FUNCTION editStudent($yearstudentId) {
 	$conn = getConn();
 	// Get Student via the YearStudent
 	
-	$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId FROM yearstudents as ys, student as s WHERE yearstudentId='.$yearstudentId.' AND ys.studentid = s.studentid';
+	$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId, y.year, ys.cipCharter FROM yearstudents as ys, student as s, cip_year AS y WHERE yearstudentId='.$yearstudentId.' AND ys.studentid = s.studentid AND ys.yearId = y.yearId';
 			
 	//echo $sql;	
 	$result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
 	if (mysqli_num_rows($result)==1) {
 		// Get the results into venue fields
 		echo "<h2>Edit Student</h2>";
-		echo "<table class='tableText'>";
+		echo "<table id='myTable' class='rTable'>";
 		echo "<form id='student' name='student' action='student.php?function=save' method='post'>";
 		while($studRow = mysqli_fetch_assoc($result)) {
 			
 			$studentId 			= $studRow["studentId"];
-			$_SESSION["studentId"] = $studentId;
-			$studentFirstName 	= $studRow["studentFirstName"];
+			$_SESSION["studentId"] 	= $studentId;
+			$studentFirstName 		= $studRow["studentFirstName"];
 			$studentPreferredName 	= $studRow["studentPreferredName"];
-			$studentLastName 	= $studRow["studentLastName"];
-			$studentUserId		= $studRow["userId"];
-			echo "<tr>";
-			echo "<td>Student Id:</td><td>$studentId</td>";
-			echo "</tr><tr>";
-			echo "<td>Student First Name:</td><td><input type='text' name='studentFirstName' value='$studentFirstName'></td>";
-			echo "<td>Student Preferred Name:</td><td><input type='text' name='studentPreferredName' value='$studentPreferredName'></td>";
-			echo "<td>Student Last Name:</td><td><input type='text' name='studentLastName' value='$studentLastName'></td>";
-			echo "</tr><tr>";
-			echo "<td>Student User Id:</td><td><input type='text' name='studentUserId' value='$studentUserId'></td>";
-			echo "</tr><tr>";
-			echo "<input type='hidden' name='studentId' value='$studentId'>";
-			echo "<input type='hidden' name='yearstudentId' value='$yearstudentId'>";
+			$studentLastName 		= $studRow["studentLastName"];
+			$studentUserId			= $studRow["userId"];
+			$cipCharter 			= $studRow["cipCharter"];
+			$cipYear				= $studRow["year"];
+			
+			$stDet = "";
+			$stDet .= "<tr>";
+			$stDet .=  "<td>Student Id:</td><td>$studentId</td>";
+			$stDet .=  "</tr><tr>";
+			$stDet .=  "<td>Student First Name:</td><td><input type='text' name='studentFirstName' value='$studentFirstName' size='30'></input></td>";
+			$stDet .=  "<td>Student Preferred Name:</td><td><input type='text' name='studentPreferredName' value='$studentPreferredName'></td>";
+			$stDet .=  "<td>Student Last Name:</td><td><input type='text' name='studentLastName' value='$studentLastName'></td>";
+			$stDet .=  "</tr><tr>";
+			$stDet .=  "<td>Student User Id:</td><td><input type='text' name='studentUserId' value='$studentUserId' size='10'></input></td>";
+			$stDet .=  "</tr><tr>";
+			$stDet .=  "<td>&nbsp;</td></tr><tr>";
+			$stDet .=  "<td>CIP Year $cipYear Charter returned?</td>";
+						
+			$stDet .=  "<td><select name='cipCharter'>";
+			$stDet .=  "<option value='Y'";
+			$stDet .=  ($cipCharter == 'Y')? " selected" : "";
+			$stDet .=  ">Y</option>";
+			
+			$stDet .=  "<option value='N'";
+			$stDet .=  ($cipCharter == 'N')? " selected" : "";
+			$stDet .=  ">N</option>";
+			$stDet .=  "</select></td>";
+			
+			$stDet .=  "</tr><tr>";
+			$stDet .=  "<td>&nbsp;</td></tr><tr><td>";
+			$stDet .=  "<input type='hidden' name='studentId' value='$studentId'>";
+			$stDet .=  "<input type='hidden' name='yearstudentId' value='$yearstudentId'></td>";
 		} 
-		echo "<td><button type='submit' name='update'>Update Student</button></td>";
-		echo "<td><button type='submit' name='delete'>Delete student</button></td>";
-		echo "</tr>";
-		echo "</form>";
-		echo "</table>";
-	
+		$stDet .=  "<td><button type='submit' name='update'>Update Student</button></td>";
+		$stDet .=  "<td><button type='submit' name='delete'>Delete student</button></td>";
+		$stDet .=  "</tr>";
+		$stDet .=  "</form>";
+		$stDet .=  "</table>";
+		echo($stDet);
 	} else {
 		$error = "<p>Student Not Found!</p>";
 	}
@@ -75,25 +94,41 @@ FUNCTION editStudent($yearstudentId) {
 }
 	
 FUNCTION addStudent() {
-	echo "<h2>Add New Student</h2>";
-	echo "<table class='tableText'>";
-	echo "<form id='student' name='student' action='student.php?function=save' method='post'>";
-	echo "<tr>";
-	echo "<td>Student First Name: </td><td><input type='text' name='studentFirstName'></td>";
-	echo "<td>Student Preferred Name: </td><td><input type='text' name='studentPreferredName'></td>";
-	echo "<td>Student Last Name: </td><td><input type='text' name='studentLastName'></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<td>Student User Id: </td><td><input type='text' name='studentUserId'></td>";
-	echo "</tr>";
-	echo "<tr>";
-	echo "<input type='hidden' name='yearstudentId' value=''></td>";
-	echo "<td><button type='submit' name='submit'>Add Student</button></td>";
-	echo "</tr>";
-	echo "</form>";
-	echo "</table>";
+	$cipYear = $_SESSION["year"];
+	$stDet =  "<h2>Add New Student</h2>";
+	$stDet .=  "<table class='tableText'>";
+	$stDet .=  "<form id='student' name='student' action='student.php?function=save' method='post'>";
+	$stDet .=  "<tr>";
+	$stDet .=  "<td>Student First Name: </td><td><input type='text' name='studentFirstName'></td>";
+	$stDet .=  "<td>Student Preferred Name: </td><td><input type='text' name='studentPreferredName'></td>";
+	$stDet .=  "<td>Student Last Name: </td><td><input type='text' name='studentLastName'></td>";
+	$stDet .=  "</tr>";
+	$stDet .=  "<tr>";
+	$stDet .=  "<td>Student User Id: </td><td><input type='text' name='studentUserId'></td>";
+	$stDet .=  "</tr>";
+	$stDet .=  "<tr>";
+	$stDet .=  "<td>&nbsp;</td></tr><tr>";
+	$stDet .=  "<td>CIP Year $cipYear Charter returned?</td>";
+				
+	$stDet .=  "<td><select name='cipCharter'>";
+	$stDet .=  "<option value='Y'";
+	$stDet .=  ">Y</option>";
+	
+	$stDet .=  "<option value='N' selected";
+	$stDet .=  ">N</option>";
+	$stDet .=  "</select></td>";
+	
+	$stDet .=  "</tr><tr>";
+	$stDet .=  "<td>&nbsp;</td></tr>";	
+	$stDet .=  "<tr>";
+	$stDet .=  "<td>&nbsp;</td></tr><tr><td><input type='hidden' name='yearstudentId' value=''></td>";
+	$stDet .=  "<td><button type='submit' name='submit'>Add Student</button></td>";
+	$stDet .=  "</tr>";
+	$stDet .=  "</form>";
+	$stDet .=  "</table>";
+	echo($stDet);
 }
-FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId) {
+FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId,$cipCharter) {
 	$success = False;
 	$homeroomId = $_SESSION["homeroomId"];
 	$yearId = $_SESSION["yearId"];
@@ -105,7 +140,7 @@ FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentPreferredN
 		$_SESSION['studentId']=$studentId;
 
 		//Insert Student Year and Homeroom 
-		$sql = 'INSERT INTO yearstudents (studentId, homeroomId, yearId) VALUES ("'.$studentId.'", "'.$homeroomId.'", "'.$yearId.'")';
+		$sql = 'INSERT INTO yearstudents (studentId, homeroomId, yearId, cipCharter) VALUES ("'.$studentId.'", "'.$homeroomId.'", "'.$yearId.'", "'.$cipCharter.'" )';
 
 		if (mysqli_query($conn,$sql) or die(mysqli_error($conn))) { 
 			$yearstudentId = mysqli_insert_id($conn);
@@ -117,7 +152,7 @@ FUNCTION saveNewStudent($conn, $studentId, $studentFirstName, $studentPreferredN
 	
 }
 	
-FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId) {
+FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId, $cipCharter) {
 	require 'DBUtils.php';
 	$conn = getConn();
 	//echo("Saving....");
@@ -126,7 +161,7 @@ FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentPref
 	if ($studentId=="") {
 		
 		//INSERT
-		if (saveNewStudent($conn,$studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId)) {
+		if (saveNewStudent($conn,$studentId, $studentFirstName, $studentPreferredName, $studentLastName, $studentUserId,$yearstudentId, $cipCharter)) {
 			$error = "<p>Record Saved</p>";
 		} else {
 			$error = "<p>Student Not Updated!</p>";
@@ -134,11 +169,10 @@ FUNCTION saveStudent($yearstudentId, $studentId, $studentFirstName, $studentPref
 	} else { 
 		if (isset($_POST["update"])) {
 		//Update
-			$sql = "UPDATE student SET studentFirstName='$studentFirstName', studentPreferredName='$studentPreferredName', studentLastName='$studentLastName',
-			userId='$studentUserId' WHERE studentId=$studentId";
+			$sql = "UPDATE student SET studentFirstName='$studentFirstName', studentPreferredName='$studentPreferredName', studentLastName='$studentLastName', userId='$studentUserId' WHERE studentId=$studentId; UPDATE yearstudents SET cipCharter='$cipCharter' WHERE yearstudentId=$yearstudentId";
 		// SAVE STUDENT
 		//echo $sql;	
-			if (mysqli_query($conn,$sql) or die(mysqli_error($conn))) {
+			if (mysqli_multi_query($conn,$sql) or die(mysqli_error($conn))) {
 				$error = "<p>Record Saved</p>";
 			} else {
 				$error = "<p>Student Not Updated!</p>";
@@ -181,13 +215,15 @@ if ($function=="edit") {
 	editStudent($yearstudentId);
 	
 } else if ($function=="save") {
-	$studentId = $_POST["studentId"];
-	$yearstudentId=$_POST["yearstudentId"];
-	$studentFirstName=$_POST["studentFirstName"];
-	$studentPreferredName=$_POST["studentPreferredName"];
-	$studentLastName=$_POST["studentLastName"];
-	$studentUserId=$_POST["studentUserId"];
-	saveStudent($yearstudentId,$studentId, $studentFirstName,$studentPreferredName,$studentLastName,$studentUserId);
+	$studentId 				= $_POST["studentId"];
+	$yearstudentId			=$_POST["yearstudentId"];
+	$studentFirstName		=$_POST["studentFirstName"];
+	$studentPreferredName	=$_POST["studentPreferredName"];
+	$studentLastName		=$_POST["studentLastName"];
+	$studentUserId			=$_POST["studentUserId"];
+	$cipCharter				=$_POST["cipCharter"];
+	
+	saveStudent($yearstudentId,$studentId, $studentFirstName,$studentPreferredName,$studentLastName,$studentUserId, $cipCharter);
 } else {
 	$error="Please Add Student";
 	addStudent();

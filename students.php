@@ -22,7 +22,7 @@ if	($method=="POST") {
 $pageHead = "<h2>$year Teacher: $firstName $lastName - Homeroom: $homeroom</h2>";
 
 // GET INFO ABOUT STUDENTS FOR THIS TEACHER AND YEAR
-$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId, ys.yearstudentId FROM yearstudents AS ys, student AS s, homeroom AS h, cip_year AS yr, teacherhomeroom AS th WHERE ys.studentid = s.studentid AND ys.homeroomid = h.homeroomId AND ys.yearid = yr.yearId AND ys.homeroomid = th.homeroomId AND ys.yearid = th.yearId AND th.userId = "'.$userId.'" AND yr.year = '.$year.' ORDER BY StudentLastName, StudentFirstName';
+$sql = 'SELECT s.studentId, s.studentFirstName, s.studentPreferredName, s.studentLastName, s.userId, ys.yearstudentId, ys.cipCharter FROM yearstudents AS ys, student AS s, homeroom AS h, cip_year AS yr, teacherhomeroom AS th WHERE ys.studentid = s.studentid AND ys.homeroomid = h.homeroomId AND ys.yearid = yr.yearId AND ys.homeroomid = th.homeroomId AND ys.yearid = th.yearId AND th.userId = "'.$userId.'" AND yr.year = '.$year.' ORDER BY StudentLastName, StudentFirstName';
 		
 $studentList = "";
 $result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
@@ -30,7 +30,7 @@ if (mysqli_num_rows($result)>0) {
 	// Get the results into venue list 
 	$studentList .= "<form id='students' name='students' action='' method='post' class='tableText'>";
 	$studentList .=  "<table width='100%'  id='myTable'>";
-	$studentList .=  "<tr class='header'><th>Homeroom</th><th></th><th >Student</th><th>Venues</th><th>Total Hours</th></tr>";
+	$studentList .=  "<tr class='header'><th>Homeroom</th><th></th><th >Student</th><th>Charter?</th><th>Venues</th><th>Total Hours</th></tr>";
 	while($studRow = mysqli_fetch_assoc($result)) {
 		$studentId 			= $studRow["studentId"];
 		$studentFirstName 	= $studRow["studentFirstName"];
@@ -39,16 +39,18 @@ if (mysqli_num_rows($result)>0) {
 		$studentUserId 		= $studRow["userId"];
 		$studentImage 		= 'studentImages/'.$studentUserId.'.jpg';
 		$yearstudentId 		= $studRow['yearstudentId'];
+		$cipCharter 		= $studRow["cipCharter"];
 		$studentList 		.= "<tr>";
-		$studentList		.= "<td align='center'>$homeroom</td>";
-		$studentList .= "<td width='100px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
-		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
-		$studentList .= "<td width='15%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentList		.= "<td align='center' width='5%'>$homeroom</td>";
+		$studentList .= "<td width='2%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
+		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName' width='43px' height='64px'></a></td>";
+		$studentList .= "<td width='10%' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "$studentFirstName ";
 		$spn = ($studentPreferredName=="")? "" :" ($studentPreferredName) "; 
 		$studentList .= " ".$spn." ";
 		$studentList .= " $studentLastName</a></td>";
-		
+		$studentList .= "<td width='2%'>$cipCharter</td>";
+
 		// For each student year - see if any providers
 		$provsql = "SELECT syp.studentYearProviderId, syp.providerId, p.providerName, p.location, syp.cipHours,syp.venueFormFlag, syp.logBookFlag, syp.comments FROM studentyearprovider AS syp, cip_provider AS p, yearstudents AS ys, student AS s WHERE syp.providerId = p.providerId AND syp.yearstudentId = ys.yearstudentId AND ys.studentid = s.studentid AND syp.yearStudentId = ".$yearstudentId;
 

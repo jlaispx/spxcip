@@ -30,7 +30,7 @@ if	($method=="POST") {
 		$salt = '$5$rounds=5000$stpiusxcipsystem2019jlai';
 		$password=crypt($password, $salt);
 		//echo($password);
-		$sql = "SELECT u.UserID, u.UserName, u.PASSWORD, u.firstName, u.lastName, u.Email, u.Role, h.homeroomId, h.homeroom, yr.yearId, yr.year FROM Users AS u, teacherhomeroom AS t, cip_year AS yr, homeroom AS h WHERE u.userid = t.userId AND t.yearId = yr.yearId AND h.homeroomId = t.homeroomId AND yr.YEAR = year(NOW()) AND LOWER(u.UserName) = LOWER('$username') AND u.Password = '$password'";
+		$sql = "SELECT u.UserID, u.UserName, u.PASSWORD, u.firstName, u.lastName, u.Email, u.Role, ur.userRole, ur.accessLevel, h.homeroomId, h.homeroom, yr.yearId, yr.year FROM Users AS u, userrole AS ur, teacherhomeroom AS t, cip_year AS yr, homeroom AS h WHERE u.userid = t.userId AND u.role = ur.userRoleId AND t.yearId = yr.yearId AND h.homeroomId = t.homeroomId AND yr.YEAR = year(NOW()) AND LOWER(u.UserName) = LOWER('$username') AND u.Password = '$password'";
 		
 		$result = mysqli_query($conn,$sql) or die(mysqli_error($conn)) ;  
 		//$result = $conn->query($sql);
@@ -39,32 +39,37 @@ if	($method=="POST") {
 			// Get the results into $row 
 			$row = mysqli_fetch_assoc($result);
 			
-			$userId = $row['UserID'];
-;			$firstName = $row["firstName"];
-			$lastName = $row["lastName"];//
-			$role = $row["Role"];
-			$email = $row["Email"];
-			$year = $row["year"];
-			$yearId = $row["yearId"];
-			$homeroom = $row["homeroom"];
+			$userId 	= $row['UserID'];
+;			$firstName 	= $row["firstName"];
+			$lastName 	= $row["lastName"];//
+			$role 		= $row["Role"];
+			$userRole	= $row["userRole"];
+			$accessLevel = $row["accessLevel"];
+			$email 		= $row["Email"];
+			$year 		= $row["year"];
+			$yearId 	= $row["yearId"];
+			$homeroom 	= $row["homeroom"];
 			$homeroomId = $row["homeroomId"];
+			$systemAdmin = false;
 			if ($role=="0") {
-				$error = "<p>Admin logged In Successfully</p>";
-			} else {
-				$error = "<p>($username) $firstName $lastName logged In Successfully</p>";
+				$systemAdmin = true;
 			}
+			$error = "<p>($username) $firstName $lastName logged in successfully as $userRole</p>";
 			//echo($method." here2");
 			$_SESSION["username"]=$username;
 			//$_SESSION["password"]=$password;
-			$_SESSION["firstName"]=$firstName;
-			$_SESSION["lastName"]=$lastName;
-			$_SESSION["role"]=$role;
-			$_SESSION["email"]=$email;
-			$_SESSION["year"] = $year;
-			$_SESSION["yearId"] = $yearId;
-			$_SESSION["homeroom"] = $homeroom;
+			$_SESSION["firstName"]	=$firstName;
+			$_SESSION["lastName"]	=$lastName;
+			$_SESSION["role"]		=$role;
+			$_SESSION["userRole"]  	=$userRole;
+			$_SESSION["accessLevel"] = $accessLevel;
+			$_SESSION["email"]		=$email;
+			$_SESSION["year"] 		= $year;
+			$_SESSION["yearId"] 	= $yearId;
+			$_SESSION["homeroom"] 	= $homeroom;
 			$_SESSION["homeroomId"] = $homeroomId;
-			$_SESSION["userId"] = $userId;
+			$_SESSION["userId"] 	= $userId;
+			$_SESSION["systemAdmin"] = $systemAdmin;
 			
 			$footer = "<div><div>Current User:". $_SESSION['username']."</div><div>Name: $firstName $lastName</div></div>";
 			

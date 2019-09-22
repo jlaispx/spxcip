@@ -107,7 +107,7 @@ if (mysqli_num_rows($result)>0) {
 		$studentList .=  "<tr>";
 		
 		$studentList .=  "<td width='150px' align='center'><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
-		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName'></a></td>";
+		$studentList .= "<img src='$studentImage' title='$studentFirstName $studentLastName' width='86px' height='128px'></a></td>";
 		$studentList .=  "<td><a href='student.php?yearstudentId=$yearstudentId&function=edit'>";
 		$studentList .= "$studentFirstName";
 		$spn = ($studentPreferredName=="")? "" :" ($studentPreferredName) "; 
